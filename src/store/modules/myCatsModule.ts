@@ -5,10 +5,10 @@ export const myCatsModule = {
    namespaced: true,
     state: () => ({
         cats: [],
-        limit: 10,
         totalPages: 0,
         page: 1,
         isLoaded: false,
+        
     }),
     getters: {
         getCats(state: State) {
@@ -30,21 +30,23 @@ export const myCatsModule = {
         },
         setLoaded(state: State, value: boolean) {
             state.isLoaded = value;
+        },
+        resetPage(state: State) {
+            state.page = 1
         }
     }, 
     actions: {
-        async getAllCats({ state, commit } : { state: State, commit: any}): Promise<void> {
+        async getAllCats({ state, commit }: { state: State, commit: any }): Promise<void> {
             try {
                 if (state.totalPages === state.page) {
                     return
                 }
                 commit('setPage', state.page + 1)
-                const urlMy: string = 'https://api.thecatapi.com/v1/images/'
+                const urlMy: string = 'https://api.thecatapi.com/v1/images'
 
                 axios.defaults.headers.common['x-api-key'] = process.env.VUE_APP_API_KEY
                 let request = await axios.get(urlMy, {
                     params: {
-                        limit: state.limit,
                         page: state.page
                     },
                     headers: {
@@ -52,13 +54,13 @@ export const myCatsModule = {
                     }
                 })
                 let response = request
-
                 commit("setTotalPages", response.headers["pagination-count"])
-                commit("setCats", [...state.cats, ...response.data])
+                commit("setCats", [...response.data])
                 commit("setLoaded", true)
 
             } catch (error) {
                 console.log(error);
+                 commit("setLoaded", true)
             }
         }
     },

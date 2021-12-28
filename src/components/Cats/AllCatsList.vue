@@ -7,7 +7,7 @@
  
 <script lang='ts'>
 import { defineComponent} from 'vue';
-import CatCard from "@/components/Home/CatCard.vue"
+import CatCard from "@/components/Cats/CatCard.vue"
 export default defineComponent({
     components: {CatCard},
   props: {

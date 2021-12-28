@@ -30,10 +30,13 @@ export const allCatsModule = {
         },
         setLoaded(state: State, value: boolean) {
             state.isLoaded = value;
+        },
+           resetPage(state: State) {
+            state.page = 1
         }
     }, 
     actions: {
-        async getAllCats({ state, commit } : { state: State, commit: any}): Promise<void> {
+        async getAllCats({ state, commit }: { state: State, commit: any }): Promise<void> {
             try {
                 if (state.totalPages === state.page) {
                     return
@@ -58,6 +61,7 @@ export const allCatsModule = {
 
             } catch (error) {
                 console.log(error);
+                 commit("setLoaded", true)
             }
         }
     },

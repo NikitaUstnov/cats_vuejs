@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import AllCatsList from "@/components/Home/AllCatsList.vue"
+import AllCatsList from "@/components/Cats/AllCatsList.vue"
 import { mapGetters, mapActions, mapMutations} from 'vuex'
 
 export default defineComponent({
@@ -19,6 +19,7 @@ export default defineComponent({
   methods: {
   ...mapMutations({
     setPage: "myCats/setPage",
+    resetPage: "myCats/resetPage"
   }),
   ...mapActions({
     getAllCats: "myCats/getAllCats",
@@ -32,7 +33,9 @@ export default defineComponent({
      isLoaded: "myCats/isLoadedState"
    })
 },
-
+unmounted(){
+  this.resetPage()
+}
 });
 </script>
 <style scoped>
